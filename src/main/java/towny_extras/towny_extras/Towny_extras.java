@@ -2,11 +2,11 @@ package towny_extras.towny_extras;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
-import com.palmergames.bukkit.towny.event.NewTownEvent;
-import com.palmergames.bukkit.towny.event.DeleteTownEvent;
 import com.palmergames.bukkit.towny.object.AddonCommand;
 import com.palmergames.bukkit.towny.object.Town;
-import org.bukkit.event.EventHandler;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI.CommandType;
 import towny_extras.towny_extras.commands.PlotClaimCommand;
@@ -21,6 +21,8 @@ public final class Towny_extras extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         buildClaimPlot();
+        PluginManager pm = Bukkit.getServer().getPluginManager();
+        pm.registerEvents(new TownyExtraTownyEventListener(this), this);
     }
 
     @Override
@@ -28,7 +30,7 @@ public final class Towny_extras extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    private void buildClaimPlot(){
+    public void buildClaimPlot(){
         claim_plot = new AddonCommand(CommandType.TOWNYADMIN, "claim_plot", new PlotClaimCommand());
         List<String> town_names;
         town_names = new ArrayList<>();
@@ -40,13 +42,5 @@ public final class Towny_extras extends JavaPlugin {
     }
 
 
-    @EventHandler
-    public void onTownDestroy(DeleteTownEvent event){
-        buildClaimPlot();
-    }
 
-    @EventHandler
-    public void onTownCreate(NewTownEvent event){
-        buildClaimPlot();
-    }
 }
