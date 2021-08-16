@@ -14,6 +14,10 @@ public class PlotClaimCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args[0].equals("claim_plot")){
+            if (args.length < 2){
+                sender.sendMessage("There must be a town name as first arg");
+                return false;
+            }
             try {
                 Location loc = null;
                 Town town = TownyAPI.getInstance().getDataSource().getTown(args[1]);
@@ -29,10 +33,12 @@ public class PlotClaimCommand implements CommandExecutor {
                     return false;
                 }
                 TownBlock block = TownyAPI.getInstance().getTownBlock(loc);
+
                 if(block == null){
-                    sender.sendMessage("Location has not been registered");
-                    return false;
+                    block = new TownBlock(loc.getChunk().getX(), loc.getChunk().getZ(), town.getHomeblockWorld());
+                    block.save();
                 }
+                    
                 if(block.hasTown()){
                     Town blockTown = block.getTownOrNull();
                     if(blockTown == null){
@@ -42,6 +48,12 @@ public class PlotClaimCommand implements CommandExecutor {
                     sender.sendMessage("Location is part of "+blockTown.getName());
                     return false;
                 }
+                
+                block.setTown(town);
+                block.save();
+                sender.sendMessage("Location is now part of "+town.getName());
+                return true;
+
             } catch (NotRegisteredException e) {
                 sender.sendMessage(e.getMessage());
                 return false;
