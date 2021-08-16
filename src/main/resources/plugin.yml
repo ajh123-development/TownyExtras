@@ -1,0 +1,9 @@
+name: Towny_extras
+version: '${project.version}'
+main: towny_extras.towny_extras.Towny_extras
+api-version: 1.15
+prefix: TownyExtras
+depend: [ Towny ]
+authors: [ ajh123 ]
+description: Adds to towny
+website: https://github.com/ajh123-development/TownyExtras
