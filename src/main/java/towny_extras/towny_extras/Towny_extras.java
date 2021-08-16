@@ -1,6 +1,7 @@
 package towny_extras.towny_extras;
 
 import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
 import com.palmergames.bukkit.towny.object.AddonCommand;
 import com.palmergames.bukkit.towny.object.Town;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,6 +23,7 @@ public final class Towny_extras extends JavaPlugin {
             town_names.add(town.getFormattedName());
         }
         myCommand.setTabCompletion(0, town_names);
+        TownyCommandAddonAPI.addSubCommand(myCommand);
     }
 
     @Override
