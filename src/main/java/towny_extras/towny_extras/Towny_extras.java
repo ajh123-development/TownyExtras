@@ -23,6 +23,7 @@ public final class Towny_extras extends JavaPlugin {
         // Plugin startup logic
         buildClaimPlot();
         buildNewNPCTown();
+
         PluginManager pm = Bukkit.getServer().getPluginManager();
         pm.registerEvents(new TownyExtraTownyEventListener(this), this);
     }

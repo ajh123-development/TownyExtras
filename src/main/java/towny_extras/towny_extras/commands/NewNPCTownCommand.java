@@ -1,8 +1,8 @@
 package towny_extras.towny_extras.commands;
 
 import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.exceptions.AlreadyRegisteredException;
-import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownBlock;
@@ -67,6 +67,12 @@ public class NewNPCTownCommand implements CommandExecutor {
                return false;
             }
             town.setMayor(mayor);
+            try {
+                TownyUniverse.getInstance().registerTown(town);
+            } catch (AlreadyRegisteredException e) {
+                sender.sendMessage(e.getMessage());
+                return false;
+            }
             mayor.save();
             town.save();
 
