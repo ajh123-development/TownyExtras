@@ -5,10 +5,10 @@ import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
 import com.palmergames.bukkit.towny.object.AddonCommand;
 import com.palmergames.bukkit.towny.object.Town;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI.CommandType;
+import towny_extras.towny_extras.commands.NewNPCTownCommand;
 import towny_extras.towny_extras.commands.PlotClaimCommand;
 
 import java.util.ArrayList;
@@ -16,11 +16,13 @@ import java.util.List;
 
 public final class Towny_extras extends JavaPlugin {
     AddonCommand claim_plot;
+    AddonCommand new_npc_town;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         buildClaimPlot();
+        buildNewNPCTown();
         PluginManager pm = Bukkit.getServer().getPluginManager();
         pm.registerEvents(new TownyExtraTownyEventListener(this), this);
     }
@@ -39,6 +41,10 @@ public final class Towny_extras extends JavaPlugin {
         }
         claim_plot.setTabCompletion(0, town_names);
         TownyCommandAddonAPI.addSubCommand(claim_plot);
+    }
+    public void buildNewNPCTown(){
+        new_npc_town = new AddonCommand(CommandType.TOWNYADMIN, "new_npc_town", new NewNPCTownCommand());
+        TownyCommandAddonAPI.addSubCommand(new_npc_town);
     }
 
 
